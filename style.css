@@ -133,8 +133,10 @@ body {
 footer { text-align: center; padding: 2.5rem; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--border); }
 
 /* REVEAL ANIMATION */
-.section { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.section { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; scroll-margin-top: 80px; }
 .section.visible { opacity: 1; transform: none; }
+/* If JS is disabled or fails, still show content */
+.no-js .section { opacity: 1; transform: none; }
 .hero { animation: fadeUp .7s ease both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
