@@ -11,7 +11,6 @@ if ('IntersectionObserver' in window) {
   }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.section').forEach((s) => {
-    // If already in view (e.g. direct #anchor link), reveal immediately
     const r = s.getBoundingClientRect();
     if (r.top < window.innerHeight && r.bottom > 0) {
       reveal(s);
@@ -20,11 +19,10 @@ if ('IntersectionObserver' in window) {
     }
   });
 } else {
-  // Fallback: show everything
   document.querySelectorAll('.section').forEach(reveal);
 }
 
-// Smooth anchor scrolling that also reveals the target
+// Smooth anchor scrolling
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
     const id = a.getAttribute('href');
@@ -40,15 +38,19 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// Smooth active nav highlight
-const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-const sections = [...document.querySelectorAll('.section[id], .hero[id]')];
-
-window.addEventListener('scroll', () => {
-  const y = window.scrollY + 120;
-  let current = 'top';
-  sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
-  navLinks.forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+// Project filters
+document.querySelectorAll('.filter-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.work-card').forEach((card) => {
+      const cats = (card.dataset.category || '').split(' ');
+      if (filter === 'all' || cats.includes(filter)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
   });
-}, { passive: true });
+});
