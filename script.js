@@ -1,1 +1,24 @@
-Ly8gU2Nyb2xsIHJldmVhbCBmb3Igc2VjdGlvbnMKY29uc3Qgb2JzZXJ2ZXIgPSBuZXcgSW50ZXJzZWN0aW9uT2JzZXJ2ZXIoKGVudHJpZXMpID0+IHsKICBlbnRyaWVzLmZvckVhY2goZSA9PiB7CiAgICBpZiAoZS5pc0ludGVyc2VjdGluZykgewogICAgICBlLnRhcmdldC5jbGFzc0xpc3QuYWRkKCd2aXNpYmxlJyk7CiAgICAgIG9ic2VydmVyLnVub2JzZXJ2ZShlLnRhcmdldCk7CiAgICB9CiAgfSk7Cn0sIHsgdGhyZXNob2xkOiAwLjA4IH0pOwoKZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnNlY3Rpb24nKS5mb3JFYWNoKHMgPT4gb2JzZXJ2ZXIub2JzZXJ2ZShzKSk7CgovLyBTbW9vdGggYWN0aXZlIG5hdiBoaWdobGlnaHQKY29uc3QgbmF2TGlua3MgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcubmF2LWxpbmtzIGFbaHJlZl49IiMiXScpOwpjb25zdCBzZWN0aW9ucyA9IFsuLi5kb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuc2VjdGlvbltpZF0sIC5oZXJvW2lkXScpXTsKCndpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdzY3JvbGwnLCAoKSA9PiB7CiAgY29uc3QgeSA9IHdpbmRvdy5zY3JvbGxZICsgMTIwOwogIGxldCBjdXJyZW50ID0gJ3RvcCc7CiAgc2VjdGlvbnMuZm9yRWFjaChzID0+IHsgaWYgKHMub2Zmc2V0VG9wIDw9IHkpIGN1cnJlbnQgPSBzLmlkOyB9KTsKICBuYXZMaW5rcy5mb3JFYWNoKGEgPT4gewogICAgYS5zdHlsZS5jb2xvciA9IGEuZ2V0QXR0cmlidXRlKCdocmVmJykgPT09ICcjJyArIGN1cnJlbnQgPyAndmFyKC0tYWNjZW50KScgOiAnJzsKICB9KTsKfSwgeyBwYXNzaXZlOiB0cnVlIH0pOwo=
+// Scroll reveal for sections
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// Smooth active nav highlight
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const sections = [...document.querySelectorAll('.section[id], .hero[id]')];
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 120;
+  let current = 'top';
+  sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+  });
+}, { passive: true });
